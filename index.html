@@ -62,8 +62,8 @@
         <p class="small">Ao enviar, você concorda com nossa Política de Privacidade (LGPD).</p>
       </div>
 
-      <!-- FORMULÁRIO apontando para Apps Script configurado -->
-      <form id="lead-form" action="https://script.google.com/macros/s/AKfycbwhL7zMbid69exdXoX8y0cs2PbgEvPU8VFtnVZYbgYLEvgiDpR4r22IgwVVjxGMDfI/exec"
+      <!-- FORMULÁRIO apontando para seu Apps Script -->
+      <form id="lead-form" action="https://script.google.com/macros/s/AKfycbwhL7zMbid69exdXoX8y0cs2PbgEvPU8VFtnVZYbgYLEvgiDpR4r22IgwVVjxGMDfI/exec" method="POST">
         <input type="hidden" name="next" id="redirect-next" value="">
         <input type="hidden" name="utm_source" id="utm_source" value="">
         <input type="hidden" name="utm_medium" id="utm_medium" value="">
@@ -114,6 +114,18 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- Se já tiver um script.js no repositório, pode manter.
+       Este bloco abaixo garante o redirecionamento e captura UTMs mesmo sem script externo. -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const redir = document.getElementById('redirect-next');
+    if (redir) redir.value = new URL('obrigado.html', window.location.href).href;
+    const params = new URLSearchParams(window.location.search);
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k => {
+      const el = document.getElementById(k);
+      if (el && params.get(k)) el.value = params.get(k);
+    });
+  </script>
 </body>
 </html>
+
