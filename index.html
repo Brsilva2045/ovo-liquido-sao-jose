@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Granjas São José — Ovo integral e Gema Pasteurizada</title>
   <meta name="description" content="Zero desperdício, 100% aproveitamento. Receba condições e tabela de preços.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
@@ -39,18 +37,9 @@
   <section id="beneficios" class="beneficios container">
     <h2>Por que escolher nossos ovos pasteurizados?</h2>
     <div class="grid">
-      <div class="card">
-        <h3>Prático</h3>
-        <p>Pronto para usar, sem casca e com alto rendimento.</p>
-      </div>
-      <div class="card">
-        <h3>Seguro</h3>
-        <p>Processo de pasteurização com qualidade e rastreabilidade.</p>
-      </div>
-      <div class="card">
-        <h3>Versátil</h3>
-        <p>Perfeito para padarias, confeitarias, restaurantes e uso doméstico.</p>
-      </div>
+      <div class="card"><h3>Prático</h3><p>Pronto para usar, sem casca e com alto rendimento.</p></div>
+      <div class="card"><h3>Seguro</h3><p>Processo de pasteurização com qualidade e rastreabilidade.</p></div>
+      <div class="card"><h3>Versátil</h3><p>Perfeito para padarias, confeitarias, restaurantes e uso doméstico.</p></div>
     </div>
   </section>
 
@@ -62,11 +51,14 @@
         <p class="small">Ao enviar, você concorda com nossa Política de Privacidade (LGPD).</p>
       </div>
 
-      <!-- FORMULÁRIO apontando para seu Apps Script -->
+      <!-- IFRAME oculto que receberá a resposta do Apps Script -->
+      <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+      <!-- FORM faz POST direto para o Apps Script e carrega a resposta no iframe -->
       <form id="lead-form"
             action="https://script.google.com/macros/s/AKfycbwhL7zMbid69exdXoX8y0cs2PbgEvPU8VFtnVZYbgYLEvgiDpR4r22IgwVVjxGMDfI/exec"
             method="post"
-            enctype="application/x-www-form-urlencoded"
+            target="hidden_iframe"
             accept-charset="UTF-8">
         <input type="hidden" name="next" id="redirect-next" value="">
         <input type="hidden" name="utm_source" id="utm_source" value="">
@@ -122,37 +114,21 @@
     // Ano no rodapé
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Redirecionamento absoluto para obrigado.html (Apps Script lê o campo "next")
+    // Prepara URL absoluta de obrigado.html para o Apps Script redirecionar
     const redir = document.getElementById('redirect-next');
     if (redir) redir.value = new URL('obrigado.html', window.location.href).href;
 
-    // Captura UTM
+    // Captura UTMs
     const params = new URLSearchParams(window.location.search);
     ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k => {
       const el = document.getElementById(k);
       if (el && params.get(k)) el.value = params.get(k);
     });
 
-    // FORÇA POST com fetch (caso o navegador tente enviar como GET)
-    document.getElementById('lead-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const data = new FormData(form);
-      const body = new URLSearchParams();
-      for (const [k, v] of data.entries()) body.append(k, v);
-
-      try {
-        // Usa no-cors para evitar bloqueio do navegador; não precisamos ler a resposta.
-        await fetch(form.action, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-          body: body.toString()
-        });
-      } catch (_) { /* ignora */ }
-
-      // Redireciona para a página de obrigado
-      window.location.href = redir.value || 'obrigado.html';
+    // Depois que o iframe carregar (resposta do Apps Script), redireciona
+    document.getElementById('hidden_iframe').addEventListener('load', () => {
+      // dá um tempinho para a planilha gravar
+      setTimeout(() => { window.location.href = redir.value || 'obrigado.html'; }, 300);
     });
   </script>
 </body>
