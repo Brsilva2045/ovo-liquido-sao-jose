@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Granjas São José — Ovo integral e Gema Pasteurizada</title>
+  <meta name="description" content="Zero desperdício, 100% aproveitamento. Receba condições e tabela de preços.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="container">
+    <img src="assets/logo.svg" alt="Granjas São José" class="logo">
+    <nav class="nav">
+      <a href="#beneficios">Benefícios</a>
+      <a href="#form">Contato</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content container">
+      <h1>Ovo Integral e Gema Pasteurizada</h1>
+      <p>Ideal para panificação, confeitaria e uso doméstico. 100% natural e sem conservantes.</p>
+      <ul class="bullets">
+        <li>Zero desperdício, 100% aproveitamento</li>
+        <li>Padronização e segurança</li>
+        <li>Tamanhos para todos os volumes</li>
+      </ul>
+      <a class="btn" href="#form">Quero saber mais</a>
+    </div>
+    <div class="hero-art">
+      <img src="assets/anuncio.jpg" alt="Arte do anúncio Granjas São José">
+    </div>
+  </section>
+
+  <section id="beneficios" class="beneficios container">
+    <h2>Por que escolher nossos ovos pasteurizados?</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Prático</h3>
+        <p>Pronto para usar, sem casca e com alto rendimento.</p>
+      </div>
+      <div class="card">
+        <h3>Seguro</h3>
+        <p>Processo de pasteurização com qualidade e rastreabilidade.</p>
+      </div>
+      <div class="card">
+        <h3>Versátil</h3>
+        <p>Perfeito para padarias, confeitarias, restaurantes e uso doméstico.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="form" class="form-wrap">
+    <div class="container form-grid">
+      <div class="form-copy">
+        <h2>Receba detalhes, tabela de preços e condições</h2>
+        <p>Preencha o formulário e entraremos em contato em até 1 dia útil.</p>
+        <p class="small">Ao enviar, você concorda com nossa Política de Privacidade (LGPD).</p>
+      </div>
+
+      <!-- FORMULÁRIO apontando para Apps Script configurado -->
+      <form id="lead-form" action="https://script.google.com/macros/s/AKfycbxNKvR2iuTRrwEHXdwJyMDnCS3kdA7RHziiHOT4SQtRCTjx8tfC29bHoZJdVaco4SOL/exec" method="POST">
+        <input type="hidden" name="next" id="redirect-next" value="">
+        <input type="hidden" name="utm_source" id="utm_source" value="">
+        <input type="hidden" name="utm_medium" id="utm_medium" value="">
+        <input type="hidden" name="utm_campaign" id="utm_campaign" value="">
+        <input type="hidden" name="utm_content" id="utm_content" value="">
+        <input type="hidden" name="utm_term" id="utm_term" value="">
+
+        <label>Nome* <input type="text" name="nome" required autocomplete="name"></label>
+        <label>E-mail* <input type="email" name="email" required autocomplete="email"></label>
+        <label>WhatsApp* <input type="tel" name="whatsapp" required placeholder="(XX) XXXXX-XXXX"></label>
+        <label>Empresa <input type="text" name="empresa" autocomplete="organization"></label>
+
+        <div class="row">
+          <label class="half">Cidade <input type="text" name="cidade"></label>
+          <label class="half">Estado <input type="text" name="estado" maxlength="2" placeholder="UF"></label>
+        </div>
+
+        <label>Segmento
+          <select name="segmento">
+            <option value="">Selecione…</option>
+            <option>Padaria / Confeitaria</option>
+            <option>Restaurante / Hotel</option>
+            <option>Atacado / Varejo</option>
+            <option>Uso doméstico</option>
+            <option>Outro</option>
+          </select>
+        </label>
+
+        <label>Observações
+          <textarea name="observacoes" rows="4" placeholder="Conte um pouco da sua necessidade"></textarea>
+        </label>
+
+        <label class="check">
+          <input type="checkbox" name="lgpd" required>
+          Autorizo o contato por e-mail/WhatsApp conforme a LGPD.
+        </label>
+
+        <button type="submit" class="btn full">Quero receber</button>
+        <p class="muted">Você receberá uma confirmação no e-mail informado.</p>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container foot-grid">
+      <img src="assets/logo.svg" alt="Granjas São José" class="logo foot-logo">
+      <p>© <span id="year"></span> Granjas São José — 100% Natural • Sem conservantes</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
