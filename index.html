@@ -7,11 +7,18 @@
   <meta name="description" content="Zero desperdício, 100% aproveitamento. Receba condições e tabela de preços.">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <!-- favicon relativo (sem / inicial) -->
   <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 </head>
 <body>
   <header class="container">
-    <img src="assets/logo.svg" alt="Granjas São José" class="logo">
+    <!-- width/height definidos para evitar CLS -->
+    <img src="assets/logo.svg"
+         alt="Granjas São José"
+         class="logo"
+         width="180" height="48"
+         decoding="async" loading="eager"
+         style="height:48px;width:auto;">
     <nav class="nav">
       <a href="#beneficios">Benefícios</a>
       <a href="#form">Contato</a>
@@ -29,8 +36,14 @@
       </ul>
       <a class="btn" href="#form">Quero saber mais</a>
     </div>
+
     <div class="hero-art">
-      <img src="assets/anuncio.jpg" alt="Arte do anúncio Granjas São José">
+      <!-- imagem do anúncio (1600x1600) com dimensões + prioridade -->
+      <img src="assets/anuncio.jpg"
+           alt="Arte do anúncio Granjas São José"
+           width="1600" height="1600"
+           style="width:100%;height:auto;border-radius:18px;"
+           fetchpriority="high" decoding="async" loading="eager">
     </div>
   </section>
 
@@ -51,10 +64,10 @@
         <p class="small">Ao enviar, você concorda com nossa Política de Privacidade (LGPD).</p>
       </div>
 
-      <!-- IFRAME oculto que receberá a resposta do Apps Script -->
+      <!-- IFRAME oculto para garantir POST sem CORS -->
       <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
-      <!-- FORM faz POST direto para o Apps Script e carrega a resposta no iframe -->
+      <!-- FORM apontando para seu Apps Script -->
       <form id="lead-form"
             action="https://script.google.com/macros/s/AKfycbwhL7zMbid69exdXoX8y0cs2PbgEvPU8VFtnVZYbgYLEvgiDpR4r22IgwVVjxGMDfI/exec"
             method="post"
@@ -105,7 +118,7 @@
 
   <footer class="footer">
     <div class="container foot-grid">
-      <img src="assets/logo.svg" alt="Granjas São José" class="logo foot-logo">
+      <img src="assets/logo.svg" alt="Granjas São José" class="logo foot-logo" width="180" height="48" style="height:40px;width:auto;">
       <p>© <span id="year"></span> Granjas São José — 100% Natural • Sem conservantes</p>
     </div>
   </footer>
@@ -114,7 +127,7 @@
     // Ano no rodapé
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Prepara URL absoluta de obrigado.html para o Apps Script redirecionar
+    // URL absoluta para obrigado.html (Apps Script lê o campo "next")
     const redir = document.getElementById('redirect-next');
     if (redir) redir.value = new URL('obrigado.html', window.location.href).href;
 
@@ -125,9 +138,8 @@
       if (el && params.get(k)) el.value = params.get(k);
     });
 
-    // Depois que o iframe carregar (resposta do Apps Script), redireciona
+    // Redireciona quando o iframe (resposta do Apps Script) terminar de carregar
     document.getElementById('hidden_iframe').addEventListener('load', () => {
-      // dá um tempinho para a planilha gravar
       setTimeout(() => { window.location.href = redir.value || 'obrigado.html'; }, 300);
     });
   </script>
